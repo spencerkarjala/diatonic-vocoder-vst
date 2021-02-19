@@ -8,7 +8,6 @@ FFTBuffer::FFTBuffer(unsigned numChannels, size_t size, unsigned fftOrder, unsig
       mFFT(fftOrder),
       mWindow(windowSize, juce::dsp::WindowingFunction<float>::hann, false),
       mSize(static_cast<int>(size)),
-      mSizeFFT(1 << fftOrder),
       mSizeWindow(windowSize),
       mSizeOverlaps(windowSize / numOverlaps),
       mNumOverlaps(numOverlaps),
@@ -66,8 +65,6 @@ void FFTBuffer::readBackN(float* destination, unsigned channel, unsigned endPos,
 }
 
 float FFTBuffer::readResult(unsigned channel) {
-  //unsigned sampleIndex = this->getThenIncrementReadResult(channel);
-  //return mResultBuffer.getSample(channel, sampleIndex).real();
   if (mResults[channel].empty()) {
     return 0.f;
   }

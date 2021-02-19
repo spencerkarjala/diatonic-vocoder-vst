@@ -13,21 +13,6 @@ public:
   float readResult(unsigned channel);
   unsigned getWritePos(unsigned channel);
 
-  class ComplexPolar {
-  public:
-    ComplexPolar()
-      : r(0.f),
-        a(0.f) {}
-    ComplexPolar(float magnitude, float theta)
-      : r(magnitude),
-        a(theta) {}
-    ComplexPolar(std::complex<float> z)
-      : r(std::abs(z)),
-        a(std::arg(z)) {}
-
-    float r, a;
-  };
-
 private:
   juce::AudioBuffer<float> mBuffer;
   std::vector<juce::AudioBuffer<juce::dsp::Complex<float>>> mFFTBuffer;
@@ -46,13 +31,12 @@ private:
 
   std::function<void(juce::dsp::Complex<float>*)> mProcessFFT;
 
-  unsigned mSizeFFT;
-  unsigned mSizeWindow;
-  unsigned mSizeOverlaps;
-  unsigned mNumOverlaps;
+  unsigned int mSizeWindow;
+  unsigned int mSizeOverlaps;
+  unsigned int mNumOverlaps;
 
-  unsigned getThenIncrementWrite(unsigned channel, unsigned num = 1);
-  unsigned getThenIncrementRead(unsigned channel, unsigned num = 1);
-  unsigned getThenIncrementReadResult(unsigned channel, unsigned num = 1);
+  unsigned int getThenIncrementWrite(unsigned channel, unsigned num = 1);
+  unsigned int getThenIncrementRead(unsigned channel, unsigned num = 1);
+  unsigned int getThenIncrementReadResult(unsigned channel, unsigned num = 1);
   void performFFT(unsigned channel);
 };
