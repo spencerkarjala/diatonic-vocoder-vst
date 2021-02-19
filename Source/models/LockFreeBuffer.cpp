@@ -1,13 +1,13 @@
 #include "LockFreeBuffer.h"
 
 LockFreeBuffer::LockFreeBuffer(unsigned numChannels, size_t size, unsigned fftOrder, unsigned windowSize, unsigned numOverlaps, std::function<void(juce::dsp::Complex<float>*)> processFFT)
-    : mBuffer(numChannels, size),
+    : mBuffer(numChannels, static_cast<int>(size)),
       mFFTBuffer(numOverlaps),
       mResultBuffer(numChannels, windowSize),
       mResults(numChannels),
       mFFT(fftOrder),
       mWindow(windowSize, juce::dsp::WindowingFunction<float>::hann, false),
-      mSize(size),
+      mSize(static_cast<int>(size)),
       mSizeFFT(1 << fftOrder),
       mSizeWindow(windowSize),
       mSizeOverlaps(windowSize / numOverlaps),
@@ -20,15 +20,15 @@ LockFreeBuffer::LockFreeBuffer(unsigned numChannels, size_t size, unsigned fftOr
       mProcessFFT(processFFT),
       mFrameIndex(numChannels) {
   mBuffer.clear();
-  for (int channel = 0; channel < numChannels; ++channel) {
-    for (int sample = 0; sample < windowSize; ++sample) {
+  for (unsigned int channel = 0; channel < numChannels; ++channel) {
+    for (unsigned int sample = 0; sample < windowSize; ++sample) {
       mResultBuffer.setSample(channel, sample, { 0.f, 0.f });
     }
   }
-  for (int overlap = 0; overlap < numOverlaps; ++overlap) {
+  for (unsigned int overlap = 0; overlap < numOverlaps; ++overlap) {
     mFFTBuffer[overlap] = juce::AudioBuffer<juce::dsp::Complex<float>>(numChannels, windowSize);
-    for (int channel = 0; channel < numChannels; ++channel) {
-      for (int sample = 0; sample < windowSize; ++sample) {
+    for (unsigned int channel = 0; channel < numChannels; ++channel) {
+      for (unsigned int sample = 0; sample < windowSize; ++sample) {
         mFFTBuffer[overlap].setSample(channel, sample, { 0.f, 0.f });
       }
     }
@@ -105,12 +105,12 @@ void LockFreeBuffer::performFFT(unsigned channel) {
   unsigned bufferPos = mWritePos[channel].load();
   unsigned bufferBase = (bufferPos - mSizeWindow) % mSize;
 
-  for (unsigned sample = 0; sample < mSizeWindow; ++sample) {
+  for (unsigned int sample = 0; sample < mSizeWindow; ++sample) {
     tmp[sample] = audioData[(bufferBase + sample) % mSize];
   }
   mWindow.multiplyWithWindowingTable(&tmp[0], mSizeWindow);
 
-  for (unsigned sample = 0; sample < mSizeWindow; ++sample) {
+  for (unsigned int sample = 0; sample < mSizeWindow; ++sample) {
     resultData[sample] = { tmp[sample], 0.f };
   }
 
@@ -120,9 +120,9 @@ void LockFreeBuffer::performFFT(unsigned channel) {
 
   unsigned frameIndexBase = mFrameIndex[channel];
   juce::dsp::Complex<float> result;
-  for (int sample = 0; sample < mSizeWindow; ++sample) {
+  for (unsigned int sample = 0; sample < mSizeWindow; ++sample) {
     result = 0;
-    for (unsigned frame = 0; frame < mNumOverlaps; ++frame) {
+    for (unsigned int frame = 0; frame < mNumOverlaps; ++frame) {
       if (sample + frame * mSizeOverlaps < mSizeWindow) {
         result += mFFTBuffer[(frameIndexBase + frame) % mNumOverlaps].getSample(channel, sample + frame * mSizeOverlaps);
       }
@@ -130,7 +130,7 @@ void LockFreeBuffer::performFFT(unsigned channel) {
     resultData[sample] = result / (float)(mNumOverlaps > 1 ? mNumOverlaps / 2 : 1);
   }
 
-  for (int sample = 0; sample < mSizeOverlaps; ++sample) {
+  for (unsigned int sample = 0; sample < mSizeOverlaps; ++sample) {
     mResults[channel].push(resultData[sample].real());
   }
 
