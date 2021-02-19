@@ -1,7 +1,7 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "../models/LockFreeBuffer.h"
+#include "../models/FFTBuffer.h"
 
 class PluginProcessor : public juce::AudioProcessor {
 public:
@@ -64,7 +64,7 @@ public:
 
 private:
 
-  LockFreeBuffer mAudioBuffer;
+  FFTBuffer mAudioBuffer;
   int mAudioBufferIndex[NUM_CHANNELS];
 
   float mFifo[FFT_SIZE];

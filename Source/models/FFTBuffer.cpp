@@ -1,6 +1,6 @@
-#include "LockFreeBuffer.h"
+#include "FFTBuffer.h"
 
-LockFreeBuffer::LockFreeBuffer(unsigned numChannels, size_t size, unsigned fftOrder, unsigned windowSize, unsigned numOverlaps, std::function<void(juce::dsp::Complex<float>*)> processFFT)
+FFTBuffer::FFTBuffer(unsigned numChannels, size_t size, unsigned fftOrder, unsigned windowSize, unsigned numOverlaps, std::function<void(juce::dsp::Complex<float>*)> processFFT)
     : mBuffer(numChannels, static_cast<int>(size)),
       mFFTBuffer(numOverlaps),
       mResultBuffer(numChannels, windowSize),
@@ -38,19 +38,19 @@ LockFreeBuffer::LockFreeBuffer(unsigned numChannels, size_t size, unsigned fftOr
   }
 }
 
-void LockFreeBuffer::write(unsigned channel, float sample) {
+void FFTBuffer::write(unsigned channel, float sample) {
   mBuffer.setSample(channel, this->getThenIncrementWrite(channel), sample);
   if (mWritePos[channel] % mSizeOverlaps == 0) {
     this->performFFT(channel);
   }
 }
 
-void LockFreeBuffer::read(float* destination, unsigned channel, unsigned length) {
+void FFTBuffer::read(float* destination, unsigned channel, unsigned length) {
   unsigned endPos = mWritePos[channel];
   this->readBackN(destination, channel, endPos, length);
 }
 
-void LockFreeBuffer::readBackN(float* destination, unsigned channel, unsigned endPos, unsigned length) {
+void FFTBuffer::readBackN(float* destination, unsigned channel, unsigned endPos, unsigned length) {
   unsigned startPos = (endPos - length) % mSize;
   float* source = mBuffer.getWritePointer(channel, startPos);
   if (endPos > startPos) {
@@ -65,7 +65,7 @@ void LockFreeBuffer::readBackN(float* destination, unsigned channel, unsigned en
   }
 }
 
-float LockFreeBuffer::readResult(unsigned channel) {
+float FFTBuffer::readResult(unsigned channel) {
   //unsigned sampleIndex = this->getThenIncrementReadResult(channel);
   //return mResultBuffer.getSample(channel, sampleIndex).real();
   if (mResults[channel].empty()) {
@@ -76,29 +76,29 @@ float LockFreeBuffer::readResult(unsigned channel) {
   return result;
 }
 
-unsigned LockFreeBuffer::getWritePos(unsigned channel) {
+unsigned FFTBuffer::getWritePos(unsigned channel) {
   return mWritePos[channel];
 }
 
-unsigned LockFreeBuffer::getThenIncrementWrite(unsigned channel, unsigned num) {
+unsigned FFTBuffer::getThenIncrementWrite(unsigned channel, unsigned num) {
   long unsigned prev = mWritePos[channel];
   mWritePos[channel] = (prev + num >= mSize ? 0 : prev + num);
   return prev;
 }
 
-unsigned LockFreeBuffer::getThenIncrementRead(unsigned channel, unsigned num) {
+unsigned FFTBuffer::getThenIncrementRead(unsigned channel, unsigned num) {
   long unsigned prev = mReadPos[channel];
   mReadPos[channel] = (prev + num == mSize ? 0 : prev + num);
   return prev;
 }
 
-unsigned LockFreeBuffer::getThenIncrementReadResult(unsigned channel, unsigned num) {
+unsigned FFTBuffer::getThenIncrementReadResult(unsigned channel, unsigned num) {
   long unsigned prev = mResultReadPos[channel];
   mResultReadPos[channel] = (prev + num == mSizeWindow ? 0 : prev + num);
   return prev;
 }
 
-void LockFreeBuffer::performFFT(unsigned channel) {
+void FFTBuffer::performFFT(unsigned channel) {
   const float* audioData = mBuffer.getReadPointer(channel);
   juce::dsp::Complex<float>* fftData = mFFTBuffer[mFrameIndex[channel]].getWritePointer(channel);
   juce::dsp::Complex<float>* resultData = mResultBuffer.getWritePointer(channel);

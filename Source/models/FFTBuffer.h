@@ -2,10 +2,10 @@
 
 #include <JuceHeader.h>
 
-class LockFreeBuffer {
+class FFTBuffer {
 public:
-  LockFreeBuffer(unsigned numChannels, size_t size, unsigned fftSize, unsigned windowSize, unsigned numOverlaps, std::function<void(juce::dsp::Complex<float>*)> processFFT);
-  ~LockFreeBuffer() = default;
+  FFTBuffer(unsigned numChannels, size_t size, unsigned fftSize, unsigned windowSize, unsigned numOverlaps, std::function<void(juce::dsp::Complex<float>*)> processFFT);
+  ~FFTBuffer() = default;
 
   void write(unsigned channel, float sample);
   void read(float* destination, unsigned channel, unsigned length);
