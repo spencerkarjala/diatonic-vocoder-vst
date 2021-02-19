@@ -22,8 +22,6 @@ void main() {
   float xMax = (pointPositions[0] + pointPositions[2]) / 2;
   float xCurr = 6*gl_FragCoord.x / windowBounds.x;
 
-  //float func = ((pointPosition.y+1)/2)*abs(2*pow(cos(3.141592*(xCurr+3*(xMin-xMax)/2)),2) - 1);
-
   if (dist > radius) {
     if (yCurr < yAdj + 0.005 && yCurr > yAdj - 0.005) {
       color = vec4(1.0, 1.0, 1.0, 0.3);
@@ -31,15 +29,6 @@ void main() {
     else {
       color = fragColor;
     }
-    //if (yCurr < func && yCurr > func - 0.02) {
-      //color = vec4(1.0, 1.0, 1.0, 1.0);
-    //}
-    //else if (yCurr < func && hoveredSlider == pointIndex / 2) {
-      //color = vec4(1.0, 1.0, 1.0, 0.1);
-    //}
-    //else {
-      //color = fragColor;
-    //}
   }
   else {
     if (hoveredSlider == pointIndex / 2) {
