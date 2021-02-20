@@ -100,7 +100,6 @@ private:
   void generateCircleVertices(float radius, float* center, float* color, std::vector<Vertex>& vertices, std::vector<unsigned int>& indices);
 
   void loadShaderFile(std::string& destination, const std::string filename);
-  std::string getProjectDirectory();
 
   juce::OpenGLContext mOpenGLContext;
   GLuint mVBO;

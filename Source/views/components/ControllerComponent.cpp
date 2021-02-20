@@ -14,17 +14,43 @@ void ControllerComponent::paint(juce::Graphics& g) {
 }
 
 void ControllerComponent::resized() {
-  int padding = 4;
-  int patternManagerWidth = round(0.4f * (float)this->getWidth());
-  int globalParamsWidth = this->getWidth() - patternManagerWidth;
+  float padding = 4.f;
+  float componentWidth = (float)this->getWidth();
+  float componentHeight = (float)this->getHeight();
 
-  int width = patternManagerWidth - padding * 3 / 2;
-  int height = this->getHeight() - 2 * padding;
-  int xCenter = padding;
-  int yCenter = padding;
-  cPatternManager.setBounds(xCenter, yCenter, width, height);
+  float flexRatioPatternManager = 0.4f;
+  float flexRatioGlobalParams = 1.f - flexRatioPatternManager;
 
-  width = globalParamsWidth - padding * 3 / 2;
-  xCenter = patternManagerWidth + padding;
-  cGlobalParams.setBounds(xCenter, yCenter, width, height);
+  float flexPaddingWidth = padding / componentWidth;
+  float flexPaddingHeight = padding / componentHeight;
+  float flexPatternManagerWidth = (1.f - 3 * flexPaddingWidth) * flexRatioPatternManager;
+  float flexGlobalParamsWidth = (1.f - 3 * flexPaddingWidth) * flexRatioGlobalParams;
+  float flexContentHeight = 1.f - 2 * flexPaddingHeight;
+
+  juce::FlexBox verticalRoot, horizontalRoot;
+  verticalRoot.flexDirection = juce::FlexBox::Direction::column;
+  horizontalRoot.flexDirection = juce::FlexBox::Direction::row;
+
+  juce::FlexItem horizontalPadding(componentWidth, padding);
+  juce::FlexItem verticalPadding(padding, componentHeight - 2.f * padding);
+  juce::FlexItem patternManager(cPatternManager);
+  juce::FlexItem globalParameters(cGlobalParams);
+
+  horizontalRoot.items.addArray({
+    verticalPadding.withFlex(flexPaddingWidth / 2),
+    patternManager.withFlex(flexPatternManagerWidth),
+    verticalPadding.withFlex(flexPaddingWidth / 2),
+    globalParameters.withFlex(flexGlobalParamsWidth),
+    verticalPadding.withFlex(flexPaddingWidth / 2),
+  });
+
+  juce::FlexItem main(horizontalRoot);
+
+  verticalRoot.items.addArray({
+    horizontalPadding.withFlex(flexPaddingHeight / 2),
+    main.withFlex(flexContentHeight),
+    horizontalPadding.withFlex(flexPaddingHeight / 2),
+  });
+
+  verticalRoot.performLayout(this->getLocalBounds().toFloat());
 }

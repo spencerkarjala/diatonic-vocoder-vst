@@ -2,7 +2,8 @@
 #include "../../models/Constants.h"
 
 PatternManagerComponent::PatternManagerComponent(PluginProcessor& processor)
-    : mProcessorRef(processor) {
+    : mProcessorRef(processor),
+      cBackgroundSVG(SVGComponent("pattern-editor-background.svg")) {
   this->addAndMakeVisible(cComboBoxRoot);
   cComboBoxRoot.addItemList(Constants::KEY_LABELS, 1);
   cComboBoxRoot.setSelectedItemIndex(0);
@@ -11,6 +12,8 @@ PatternManagerComponent::PatternManagerComponent(PluginProcessor& processor)
   this->addAndMakeVisible(cComboBoxScale);
   cComboBoxScale.addItemList(Constants::SCALE_LABELS, 1);
   cComboBoxScale.addListener(this);
+
+  this->addAndMakeVisible(cBackgroundSVG);
 }
 
 void PatternManagerComponent::paint(juce::Graphics& g) {
@@ -52,6 +55,8 @@ void PatternManagerComponent::resized() {
   });
 
   horizontalRoot.performLayout(this->getLocalBounds().toFloat());
+
+  cBackgroundSVG.setBounds(this->getLocalBounds());
 }
 
 void PatternManagerComponent::comboBoxChanged(juce::ComboBox* updatedComboBox) {

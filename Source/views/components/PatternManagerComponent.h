@@ -2,6 +2,7 @@
 
 #include <JuceHeader.h>
 #include "../../controllers/PluginProcessor.h"
+#include "SVGComponent.h"
 
 class PatternManagerComponent
   : public juce::Component,
@@ -20,7 +21,7 @@ private:
 
   juce::ComboBox cComboBoxRoot;
   juce::ComboBox cComboBoxScale;
+  SVGComponent cBackgroundSVG;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PatternManagerComponent)
 };
-

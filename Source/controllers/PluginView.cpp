@@ -11,6 +11,8 @@ PluginView::PluginView(PluginProcessor& p)
   this->addAndMakeVisible(cControllerComponent);
 
   this->setSize(800, 400);
+  this->setResizable(true, true);
+  this->setResizeLimits(800, 400, 1600, 800);
 }
 
 void PluginView::paint(juce::Graphics& g) {
