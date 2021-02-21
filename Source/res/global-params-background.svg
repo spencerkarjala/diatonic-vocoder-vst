@@ -11,9 +11,9 @@
    inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
    id="svg880"
    version="1.1"
-   viewBox="0 0 124.35417 38.629165"
+   viewBox="0 0 132.29167 38.629165"
    height="146"
-   width="470"
+   width="500"
    sodipodi:docname="global-params-background.svg">
   <defs
      id="defs874">
@@ -33,77 +33,6 @@
          offset="0"
          id="stop6667" />
     </linearGradient>
-    <meshgradient
-       inkscape:collect="always"
-       id="meshgradient65246"
-       gradientUnits="userSpaceOnUse"
-       x="-10.615822"
-       y="48.865726"
-       gradientTransform="matrix(1.4894497,0,0,1,-2.4518896,-65.616675)">
-      <meshrow
-         id="meshrow65266">
-        <meshpatch
-           id="meshpatch65256">
-          <stop
-             path="c 13.9347,3.13638e-07  37.6561,13.8571  51.5908,13.8571"
-             style="stop-color:#16171b;stop-opacity:1"
-             id="stop65248" />
-          <stop
-             path="c 0.000109105,6.39418  -15.7433,7.04528  -15.7437,13.4391"
-             style="stop-color:#16171b;stop-opacity:1"
-             id="stop65250" />
-          <stop
-             path="c -13.9345,0.000181358  -26.3973,3.4434  -40.3323,3.4431"
-             style="stop-color:#202026;stop-opacity:1"
-             id="stop65252" />
-          <stop
-             path="c 0.000124895,-6.39375  4.48476,-24.3451  4.4852,-30.7393"
-             style="stop-color:#16171b;stop-opacity:1"
-             id="stop65254" />
-        </meshpatch>
-        <meshpatch
-           id="meshpatch65264">
-          <stop
-             path="c 13.9348,8.59842e-05  31.1527,0.310065  45.0876,0.309772"
-             id="stop65258" />
-          <stop
-             path="c -0.000164253,6.39461  16.7979,14.3508  16.7978,20.7448"
-             style="stop-color:#16171b;stop-opacity:1"
-             id="stop65260" />
-          <stop
-             path="c -13.9345,3.14291e-06  -63.6944,-7.61535  -77.6291,-7.61546"
-             style="stop-color:#16171b;stop-opacity:1"
-             id="stop65262" />
-        </meshpatch>
-      </meshrow>
-      <meshrow
-         id="meshrow65282">
-        <meshpatch
-           id="meshpatch65274">
-          <stop
-             path="c -0.000356961,6.39433  15.0077,24.6637  15.0073,31.0578"
-             id="stop65268" />
-          <stop
-             path="c -13.9342,0.000958398  -38.8299,4.08486  -52.7646,4.0845"
-             style="stop-color:#16171b;stop-opacity:1"
-             id="stop65270" />
-          <stop
-             path="c 0.000175708,-6.39374  -2.57402,-25.3039  -2.575,-31.6992"
-             style="stop-color:#16171b;stop-opacity:1"
-             id="stop65272" />
-        </meshpatch>
-        <meshpatch
-           id="meshpatch65280">
-          <stop
-             path="c 0.000159111,6.39411  -2.04153,23.4404  -2.04162,29.8343"
-             id="stop65276" />
-          <stop
-             path="c -13.9346,5.67289e-05  -46.6452,-6.39173  -60.5802,-6.39197"
-             style="stop-color:#16171b;stop-opacity:1"
-             id="stop65278" />
-        </meshpatch>
-      </meshrow>
-    </meshgradient>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -113,8 +42,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.6834763"
-     inkscape:cx="221.05134"
-     inkscape:cy="194.95226"
+     inkscape:cx="-11.171543"
+     inkscape:cy="191.09405"
      inkscape:document-units="px"
      inkscape:current-layer="layer6"
      inkscape:document-rotation="0"
@@ -122,9 +51,9 @@
      units="px"
      showguides="true"
      inkscape:window-width="3440"
-     inkscape:window-height="1377"
+     inkscape:window-height="1417"
      inkscape:window-x="1432"
-     inkscape:window-y="1432"
+     inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:guide-bbox="true">
     <inkscape:grid
@@ -149,8 +78,8 @@
      inkscape:label="global-controls"
      style="display:inline">
     <path
-       style="display:inline;mix-blend-mode:normal;fill:url(#meshgradient65246);fill-opacity:1;stroke:#0f0f0f;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
-       d="M 0.1322915,0.1322915 H 124.22187 V 38.496875 H 0.1322915 Z"
+       style="display:inline;mix-blend-mode:normal;fill:#16171b;fill-opacity:1;stroke:#0f0f0f;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       d="M 0.13229149,0.1322915 H 132.15937 V 38.496875 H 0.13229149 Z"
        id="path65286" />
   </g>
   <script

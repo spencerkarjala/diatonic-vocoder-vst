@@ -33,77 +33,6 @@
          offset="0"
          id="stop6667" />
     </linearGradient>
-    <meshgradient
-       inkscape:collect="always"
-       id="meshgradient22085"
-       gradientUnits="userSpaceOnUse"
-       x="-10.615822"
-       y="48.865726"
-       gradientTransform="translate(-1.5875,-65.616675)">
-      <meshrow
-         id="meshrow71869">
-        <meshpatch
-           id="meshpatch71871">
-          <stop
-             path="c 13.9347,3.13638e-07  37.6561,13.8571  51.5908,13.8571"
-             style="stop-color:#16171b;stop-opacity:1"
-             id="stop71873" />
-          <stop
-             path="c 0.000109105,6.39418  -15.7433,7.04528  -15.7437,13.4391"
-             style="stop-color:#16171b;stop-opacity:1"
-             id="stop71875" />
-          <stop
-             path="c -13.9345,0.000181358  -26.3973,3.4434  -40.3323,3.4431"
-             style="stop-color:#202026;stop-opacity:1"
-             id="stop71877" />
-          <stop
-             path="c 0.000124895,-6.39375  4.48476,-24.3451  4.4852,-30.7393"
-             style="stop-color:#16171b;stop-opacity:1"
-             id="stop71879" />
-        </meshpatch>
-        <meshpatch
-           id="meshpatch71881">
-          <stop
-             path="c 13.9348,8.59842e-05  31.1527,0.310065  45.0876,0.309772"
-             id="stop71883" />
-          <stop
-             path="c -0.000164253,6.39461  16.7979,14.3508  16.7978,20.7448"
-             style="stop-color:#16171b;stop-opacity:1"
-             id="stop71885" />
-          <stop
-             path="c -13.9345,3.14291e-06  -63.6944,-7.61535  -77.6291,-7.61546"
-             style="stop-color:#16171b;stop-opacity:1"
-             id="stop71887" />
-        </meshpatch>
-      </meshrow>
-      <meshrow
-         id="meshrow71889">
-        <meshpatch
-           id="meshpatch71891">
-          <stop
-             path="c -0.000356961,6.39433  15.0077,24.6637  15.0073,31.0578"
-             id="stop71893" />
-          <stop
-             path="c -13.9342,0.000958398  -38.8299,4.08486  -52.7646,4.0845"
-             style="stop-color:#16171b;stop-opacity:1"
-             id="stop71895" />
-          <stop
-             path="c 0.000175708,-6.39374  -2.57402,-25.3039  -2.575,-31.6992"
-             style="stop-color:#16171b;stop-opacity:1"
-             id="stop71897" />
-        </meshpatch>
-        <meshpatch
-           id="meshpatch71899">
-          <stop
-             path="c 0.000159111,6.39411  -2.04153,23.4404  -2.04162,29.8343"
-             id="stop71901" />
-          <stop
-             path="c -13.9346,5.67289e-05  -46.6452,-6.39173  -60.5802,-6.39197"
-             style="stop-color:#16171b;stop-opacity:1"
-             id="stop71903" />
-        </meshpatch>
-      </meshrow>
-    </meshgradient>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -113,7 +42,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="4.0650685"
-     inkscape:cx="158.6244"
+     inkscape:cx="111.26972"
      inkscape:cy="87.212835"
      inkscape:document-units="px"
      inkscape:current-layer="layer4"
@@ -139,7 +68,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -164,7 +93,7 @@
        y="29.897905" />
     <path
        id="path5398"
-       style="display:inline;mix-blend-mode:normal;fill:url(#meshgradient22085);fill-opacity:1;stroke:#0f0f0f;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       style="display:inline;mix-blend-mode:normal;fill:#16171b;fill-opacity:1;stroke:#0f0f0f;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
        d="M 2.3841858e-8,29.872018 H 83.608333 M 0.14749112,0.1322915 H 83.459866 V 38.496875 H 0.14749112 Z" />
     <path
        style="display:inline;fill:none;stroke:#0f0f0f;stroke-width:0.132293;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
