@@ -13,16 +13,16 @@ HarmonicAmplitudesComponent::HarmonicAmplitudesComponent()
 
   std::vector<Vertex> vertices = { {
       { -1.f, -1.f },
-      { 0.f, 0.f, 0.f, 1.f },
+      { 0.086f, 0.090f, 0.105f, 1.f },
     }, {
       { -1.f, 1.f },
-      { 0.f, 0.f, 0.f, 1.f },
+      { 0.086f, 0.090f, 0.105f, 1.f },
     }, {
       { 1.f, -1.f },
-      { 0.f, 0.f, 0.f, 1.f },
+      { 0.086f, 0.090f, 0.105f, 1.f },
     }, {
       { 1.f, 1.f },
-      { 0.f, 0.f, 0.f, 1.f },
+      { 0.086f, 0.090f, 0.105f, 1.f },
     }, {
   } };
   std::vector<unsigned int> indices = {
