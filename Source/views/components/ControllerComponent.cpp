@@ -37,19 +37,19 @@ void ControllerComponent::resized() {
   juce::FlexItem globalParameters(cGlobalParams);
 
   horizontalRoot.items.addArray({
-    verticalPadding.withFlex(flexPaddingWidth / 2),
+    verticalPadding,
     patternManager.withFlex(flexPatternManagerWidth),
-    verticalPadding.withFlex(flexPaddingWidth / 2),
+    verticalPadding,
     globalParameters.withFlex(flexGlobalParamsWidth),
-    verticalPadding.withFlex(flexPaddingWidth / 2),
+    verticalPadding,
   });
 
   juce::FlexItem main(horizontalRoot);
 
   verticalRoot.items.addArray({
-    horizontalPadding.withFlex(flexPaddingHeight / 2),
+    horizontalPadding,
     main.withFlex(flexContentHeight),
-    horizontalPadding.withFlex(flexPaddingHeight / 2),
+    horizontalPadding,
   });
 
   verticalRoot.performLayout(this->getLocalBounds().toFloat());
