@@ -11,6 +11,7 @@ public:
   ~HarmonicAmplitudesComponent();
 
   void paint(juce::Graphics& g) override;
+  void resized() override;
 
   void newOpenGLContextCreated() override;
   void renderOpenGL() override;

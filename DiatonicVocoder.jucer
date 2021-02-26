@@ -4,27 +4,65 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
               cppLanguageStandard="17">
   <MAINGROUP id="aTt9CD" name="DiatonicVocoder">
-    <GROUP id="{7EC86F39-25AD-394B-3ED3-223F2BB09BE1}" name="Source">
-      <FILE id="fFBdAT" name="PluginProcessor.h" compile="0" resource="0"
-            file="Source/PluginProcessor.h"/>
-      <FILE id="LINKjO" name="PluginProcessor.cpp" compile="1" resource="0"
-            file="Source/PluginProcessor.cpp"/>
-      <FILE id="oAe1ND" name="PluginView.h" compile="0" resource="0" file="Source/PluginView.h"/>
-      <FILE id="jABP76" name="PluginView.cpp" compile="1" resource="0" file="Source/PluginView.cpp"/>
-      <FILE id="kzMgxx" name="AnalyserComponent.h" compile="0" resource="0"
-            file="Source/AnalyserComponent.h"/>
-      <FILE id="pH8hrD" name="AnalyserComponent.cpp" compile="1" resource="0"
-            file="Source/AnalyserComponent.cpp"/>
-      <FILE id="HFp24H" name="LockFreeBuffer.cpp" compile="1" resource="0"
-            file="Source/LockFreeBuffer.cpp"/>
-      <FILE id="dMY8pC" name="LockFreeBuffer.h" compile="0" resource="0"
-            file="Source/LockFreeBuffer.h"/>
-      <FILE id="oWObAG" name="HarmonicAmplitudesComponent.h" compile="0"
-            resource="0" file="Source/HarmonicAmplitudesComponent.h"/>
-      <FILE id="VW5Cge" name="HarmonicAmplitudesComponent.cpp" compile="1"
-            resource="0" file="Source/HarmonicAmplitudesComponent.cpp"/>
-      <FILE id="BB1E80" name="GeometryHelpers.h" compile="0" resource="0"
-            file="Source/GeometryHelpers.h"/>
+    <GROUP id="{548DAB75-F06B-41EA-F6B5-A671CFEC45AE}" name="Source">
+      <GROUP id="{19715DD8-37A4-9D65-3025-B196A84C5AFB}" name="controllers">
+        <FILE id="KzUhBt" name="PluginProcessor.cpp" compile="1" resource="0"
+              file="Source/controllers/PluginProcessor.cpp"/>
+        <FILE id="i4h4PE" name="PluginProcessor.h" compile="0" resource="0"
+              file="Source/controllers/PluginProcessor.h"/>
+        <FILE id="ucWwc6" name="PluginView.cpp" compile="1" resource="0" file="Source/controllers/PluginView.cpp"/>
+        <FILE id="uhz8w4" name="PluginView.h" compile="0" resource="0" file="Source/controllers/PluginView.h"/>
+      </GROUP>
+      <GROUP id="{7F5D2197-A0CB-B23B-0250-83DE75DB683A}" name="models">
+        <FILE id="yZfDcy" name="Constants.h" compile="0" resource="0" file="Source/models/Constants.h"/>
+        <FILE id="EGtZb9" name="FFTBuffer.cpp" compile="1" resource="0" file="Source/models/FFTBuffer.cpp"/>
+        <FILE id="u8ysLG" name="FFTBuffer.h" compile="0" resource="0" file="Source/models/FFTBuffer.h"/>
+      </GROUP>
+      <GROUP id="{426A5514-B67F-DF62-781F-203D98ECA9ED}" name="views">
+        <GROUP id="{CC4A4BE9-B4C3-1D51-B759-6A5139090268}" name="components">
+          <FILE id="nYr4e4" name="AnalyserComponent.cpp" compile="1" resource="0"
+                file="Source/views/components/AnalyserComponent.cpp"/>
+          <FILE id="EyoFLR" name="AnalyserComponent.h" compile="0" resource="0"
+                file="Source/views/components/AnalyserComponent.h"/>
+          <FILE id="idA0Ts" name="ControllerComponent.cpp" compile="1" resource="0"
+                file="Source/views/components/ControllerComponent.cpp"/>
+          <FILE id="iVDMMd" name="ControllerComponent.h" compile="0" resource="0"
+                file="Source/views/components/ControllerComponent.h"/>
+          <FILE id="GqBM3u" name="GlobalParameterComponent.cpp" compile="1" resource="0"
+                file="Source/views/components/GlobalParameterComponent.cpp"/>
+          <FILE id="etx2mX" name="GlobalParameterComponent.h" compile="0" resource="0"
+                file="Source/views/components/GlobalParameterComponent.h"/>
+          <FILE id="yXpzyK" name="HarmonicAmplitudesComponent.cpp" compile="1"
+                resource="0" file="Source/views/components/HarmonicAmplitudesComponent.cpp"/>
+          <FILE id="X2ofzH" name="HarmonicAmplitudesComponent.h" compile="0"
+                resource="0" file="Source/views/components/HarmonicAmplitudesComponent.h"/>
+          <FILE id="Batuez" name="PatternManagerComponent.cpp" compile="1" resource="0"
+                file="Source/views/components/PatternManagerComponent.cpp"/>
+          <FILE id="jnHyRf" name="PatternManagerComponent.h" compile="0" resource="0"
+                file="Source/views/components/PatternManagerComponent.h"/>
+          <FILE id="MubvrP" name="SVGComponent.cpp" compile="1" resource="0"
+                file="Source/views/components/SVGComponent.cpp"/>
+          <FILE id="GmE8aP" name="SVGComponent.h" compile="0" resource="0" file="Source/views/components/SVGComponent.h"/>
+        </GROUP>
+        <GROUP id="{35676BB1-ED8E-C81F-4665-EE8C84F673CA}" name="drawables">
+          <FILE id="ZbwzxI" name="GLDrawable.cpp" compile="1" resource="0" file="Source/views/drawables/GLDrawable.cpp"/>
+          <FILE id="jQtC65" name="GLDrawable.h" compile="0" resource="0" file="Source/views/drawables/GLDrawable.h"/>
+        </GROUP>
+        <GROUP id="{1A19251C-D978-C792-E0BE-34DD9478D05C}" name="helpers">
+          <FILE id="w8qC4x" name="GeometryHelpers.h" compile="0" resource="0"
+                file="Source/views/helpers/GeometryHelpers.h"/>
+          <FILE id="CBDgl0" name="ResourceHelpers.cpp" compile="1" resource="0"
+                file="Source/views/helpers/ResourceHelpers.cpp"/>
+          <FILE id="MSkB74" name="ResourceHelpers.h" compile="0" resource="0"
+                file="Source/views/helpers/ResourceHelpers.h"/>
+        </GROUP>
+        <GROUP id="{6B1A4A43-C54F-8805-9B17-F2033B30D8EA}" name="shaders">
+          <FILE id="YE7d6K" name="harmonic-amplitudes.frag" compile="0" resource="1"
+                file="Source/views/shaders/harmonic-amplitudes.frag"/>
+          <FILE id="Gcg7Ej" name="harmonic-amplitudes.vert" compile="0" resource="1"
+                file="Source/views/shaders/harmonic-amplitudes.vert"/>
+        </GROUP>
+      </GROUP>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
@@ -50,6 +88,7 @@
         <MODULEPATH id="juce_gui_basics" path="../../../../../../Program Files/JUCE/modules"/>
         <MODULEPATH id="juce_gui_extra" path="../../../../../../Program Files/JUCE/modules"/>
         <MODULEPATH id="juce_opengl" path="../../../../../../Program Files/JUCE/modules"/>
+        <MODULEPATH id="react_juce" path="../blueprint"/>
       </MODULEPATHS>
     </VS2019>
   </EXPORTFORMATS>
@@ -69,6 +108,7 @@
     <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="react_juce" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
   </MODULES>
   <LIVE_SETTINGS>
     <WINDOWS/>
