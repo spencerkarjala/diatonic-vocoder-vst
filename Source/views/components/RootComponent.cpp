@@ -4,6 +4,7 @@
 #include "DialComponent.h"
 #include "FloorCeilingSliderComponent.h"
 #include "MeterComponent.h"
+#include "ParametricComponent.h"
 
 RootComponent::RootComponent(PluginProcessor& processor)
     : mProcessorRef(processor) {
@@ -12,6 +13,7 @@ RootComponent::RootComponent(PluginProcessor& processor)
   DialComponent::registerView(mAppRoot);
   FloorCeilingSliderComponent::registerView(mAppRoot);
   MeterComponent::registerView(mAppRoot);
+  ParametricComponent::registerView(mAppRoot);
 
   auto jsDirectory = ResourceHelpers::getJSPath();
   juce::File bundle = juce::File(jsDirectory.string());

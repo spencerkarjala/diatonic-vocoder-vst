@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View } from "react-juce";
 import SideBar from './SideBar';
+import ParametricComponent from './ParametricComponent';
 
 class App extends Component {
   render() {
@@ -9,6 +10,9 @@ class App extends Component {
         <View {...styles.body}>
           <View {...styles.mainDisplay}>
             <View {...styles.topBar} />
+            <View {...styles.parametric}>
+              <ParametricComponent />
+            </View>
           </View>
           <View {...styles.bottomBar} />
         </View>
@@ -35,11 +39,16 @@ const styles = {
     height: '80%',
     width: '100%',
     marginBottom: 4,
+    flexDirection: 'column',
   },
   topBar: {
     height: '20%',
     width: '100%',
     backgroundColor: '#9916171b',
+  },
+  parametric: {
+    height: '80%',
+    width: '100%',
   },
   bottomBar: {
     height: '20%',
