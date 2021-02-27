@@ -13,16 +13,16 @@ HarmonicAmplitudesComponent::HarmonicAmplitudesComponent()
 
   std::vector<Vertex> vertices = { {
       { -1.f, -1.f },
-      { 0.f, 0.f, 0.f, 1.f },
+      { 0.086f, 0.090f, 0.105f, 1.f },
     }, {
       { -1.f, 1.f },
-      { 0.f, 0.f, 0.f, 1.f },
+      { 0.086f, 0.090f, 0.105f, 1.f },
     }, {
       { 1.f, -1.f },
-      { 0.f, 0.f, 0.f, 1.f },
+      { 0.086f, 0.090f, 0.105f, 1.f },
     }, {
       { 1.f, 1.f },
-      { 0.f, 0.f, 0.f, 1.f },
+      { 0.086f, 0.090f, 0.105f, 1.f },
     }, {
   } };
   std::vector<unsigned int> indices = {
@@ -49,6 +49,38 @@ void HarmonicAmplitudesComponent::initOpenGLContext() {
 }
 
 void HarmonicAmplitudesComponent::paint(juce::Graphics& g) {}
+
+void HarmonicAmplitudesComponent::resized() {
+  float padding = 4.f;
+  float componentHeight = (float)this->getHeight();
+  float componentWidth = (float)this->getWidth();
+
+  float flexPaddingHeight = padding / componentHeight;
+  float flexPaddingWidth = padding / componentWidth;
+  float flexContentHeight = 1.f - 2.f * flexPaddingHeight;
+  float flexContentWidth = 1.f - 2.f * flexPaddingWidth;
+
+  juce::FlexBox verticalRoot, horizontalRoot;
+  verticalRoot.flexDirection = juce::FlexBox::Direction::column;
+  horizontalRoot.flexDirection = juce::FlexBox::Direction::row;
+
+  juce::FlexItem horizontalPadding(componentWidth, padding);
+  juce::FlexItem verticalPadding(padding, componentHeight);
+
+  horizontalRoot.items.addArray({
+    verticalPadding,
+    juce::FlexItem(*this).withFlex(flexContentWidth),
+    verticalPadding,
+  });
+
+  juce::FlexItem main(horizontalRoot);
+
+  verticalRoot.items.addArray({
+    horizontalPadding,
+    main,
+    horizontalPadding,
+  });
+}
 
 void HarmonicAmplitudesComponent::loadShaderFile(std::string& destination, const std::string filename) {
   destination.clear();

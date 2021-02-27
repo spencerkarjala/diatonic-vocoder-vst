@@ -3,16 +3,21 @@
 
 PluginView::PluginView(PluginProcessor& p)
     : AudioProcessorEditor(&p),
-      mProcessorRef(p),
-      cControllerComponent(mProcessorRef) {
-  this->addAndMakeVisible(cHarmonicAmplitudesComponent);
-  cHarmonicAmplitudesComponent.registerListener(this);
+      mProcessorRef(p) {
+  cRoot = std::make_unique<RootComponent>(p);
+  this->addAndMakeVisible(cRoot.get());
 
-  this->addAndMakeVisible(cControllerComponent);
-
-  this->setSize(800, 400);
+  this->setSize(1000, 500);
   this->setResizable(true, true);
-  this->setResizeLimits(800, 400, 1600, 800);
+
+  juce::ComponentBoundsConstrainer* constrainer = new juce::ComponentBoundsConstrainer();
+  constrainer->setFixedAspectRatio(2.0);
+  constrainer->setSizeLimits(1000, 500, 2400, 1200);
+  this->setConstrainer(constrainer);
+}
+
+PluginView::~PluginView() {
+  delete this->getConstrainer();
 }
 
 void PluginView::paint(juce::Graphics& g) {
@@ -20,25 +25,7 @@ void PluginView::paint(juce::Graphics& g) {
 }
 
 void PluginView::resized() {
-  juce::FlexBox verticalRoot, horizontalRoot;
-  verticalRoot.flexDirection = juce::FlexBox::Direction::column;
-  horizontalRoot.flexDirection = juce::FlexBox::Direction::row;
-
-  juce::FlexItem paddingTop((float)this->getWidth() - 8.f, 4.f);
-  juce::FlexItem paddingBottom((float)this->getWidth() - 8.f, 4.f);
-
-  verticalRoot.items.add(paddingTop);
-  verticalRoot.items.add(juce::FlexItem(cHarmonicAmplitudesComponent).withFlex(3));
-  verticalRoot.items.add(juce::FlexItem(cControllerComponent).withFlex(2));
-  verticalRoot.items.add(paddingBottom);
-
-  juce::FlexItem main(verticalRoot);
-  juce::FlexItem paddingLeft(4.f, (float)this->getHeight());
-  juce::FlexItem paddingRight(4.f, (float)this->getHeight());
-
-  horizontalRoot.items.addArray({ paddingLeft, main, paddingRight });
-
-  horizontalRoot.performLayout(this->getLocalBounds().toFloat());
+  cRoot->setBounds(this->getLocalBounds());
 }
 
 void PluginView::onAmplitudeChanged(unsigned int index, float value) {

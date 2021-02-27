@@ -2,7 +2,10 @@
 #include "../../models/Constants.h"
 
 GlobalParameterComponent::GlobalParameterComponent(PluginProcessor& processor)
-    : mProcessorRef(processor) {
+    : mProcessorRef(processor),
+      cBackgroundSVG("global-params-background.svg") {
+  this->addAndMakeVisible(cBackgroundSVG);
+
   this->addAndMakeVisible(cSliderCeiling);
   cSliderCeiling.setSliderStyle(juce::Slider::SliderStyle::Rotary);
   cSliderCeiling.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
@@ -62,6 +65,8 @@ void GlobalParameterComponent::resized() {
   });
 
   verticalRoot.performLayout(this->getLocalBounds().toFloat());
+
+  cBackgroundSVG.setBounds(this->getLocalBounds());
 }
 
 void GlobalParameterComponent::sliderValueChanged(juce::Slider* updatedSlider) {

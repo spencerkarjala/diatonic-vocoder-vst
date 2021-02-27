@@ -1,15 +1,16 @@
 #pragma once
 
+#include <react_juce.h>
 #include "PluginProcessor.h"
+#include "../views/components/RootComponent.h"
 #include "../views/components/HarmonicAmplitudesComponent.h"
-#include "../views/components/ControllerComponent.h"
 
 class PluginView
   : public juce::AudioProcessorEditor,
     private HarmonicAmplitudesComponent::Listener {
 public:
   explicit PluginView (PluginProcessor&);
-  ~PluginView() = default;
+  ~PluginView();
 
   void paint (juce::Graphics&) override;
   void resized() override;
@@ -19,9 +20,7 @@ public:
 
 private:
   PluginProcessor& mProcessorRef;
-
-  HarmonicAmplitudesComponent cHarmonicAmplitudesComponent;
-  ControllerComponent cControllerComponent;
+  std::unique_ptr<RootComponent> cRoot;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PluginView)
 };
