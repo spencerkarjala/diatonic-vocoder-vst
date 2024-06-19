@@ -1,0 +1,8 @@
+BasedOnStyle: Mozilla
+UseTab: false
+IndentWidth: 4
+ColumnLimit: 160
+AlwaysBreakAfterReturnType: None
+AlwaysBreakAfterDefinitionReturnType: None
+CompactNamespaces: false
+NamespaceIndentation: All
