@@ -4,9 +4,6 @@
 PluginView::PluginView(PluginProcessor& p)
     : AudioProcessorEditor(&p),
       mProcessorRef(p) {
-  cRoot = std::make_unique<RootComponent>(p);
-  this->addAndMakeVisible(cRoot.get());
-
   this->setSize(1000, 500);
   this->setResizable(true, true);
 
@@ -24,9 +21,7 @@ void PluginView::paint(juce::Graphics& g) {
   g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
 }
 
-void PluginView::resized() {
-  cRoot->setBounds(this->getLocalBounds());
-}
+void PluginView::resized() {}
 
 void PluginView::onAmplitudeChanged(unsigned int index, float value) {
   *mProcessorRef.pHarmonicAmplitudes[index] = value;

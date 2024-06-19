@@ -1,13 +1,8 @@
 #pragma once
 
-#include <react_juce.h>
 #include "PluginProcessor.h"
-#include "../views/components/RootComponent.h"
-#include "../views/components/HarmonicAmplitudesComponent.h"
 
-class PluginView
-  : public juce::AudioProcessorEditor,
-    private HarmonicAmplitudesComponent::Listener {
+class PluginView : public juce::AudioProcessorEditor {
 public:
   explicit PluginView (PluginProcessor&);
   ~PluginView();
@@ -20,7 +15,6 @@ public:
 
 private:
   PluginProcessor& mProcessorRef;
-  std::unique_ptr<RootComponent> cRoot;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PluginView)
 };

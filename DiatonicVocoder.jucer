@@ -18,82 +18,35 @@
         <FILE id="EGtZb9" name="FFTBuffer.cpp" compile="1" resource="0" file="Source/models/FFTBuffer.cpp"/>
         <FILE id="u8ysLG" name="FFTBuffer.h" compile="0" resource="0" file="Source/models/FFTBuffer.h"/>
       </GROUP>
-      <GROUP id="{426A5514-B67F-DF62-781F-203D98ECA9ED}" name="views">
-        <GROUP id="{CC4A4BE9-B4C3-1D51-B759-6A5139090268}" name="components">
-          <FILE id="nYr4e4" name="AnalyserComponent.cpp" compile="1" resource="0"
-                file="Source/views/components/AnalyserComponent.cpp"/>
-          <FILE id="EyoFLR" name="AnalyserComponent.h" compile="0" resource="0"
-                file="Source/views/components/AnalyserComponent.h"/>
-          <FILE id="idA0Ts" name="ControllerComponent.cpp" compile="1" resource="0"
-                file="Source/views/components/ControllerComponent.cpp"/>
-          <FILE id="iVDMMd" name="ControllerComponent.h" compile="0" resource="0"
-                file="Source/views/components/ControllerComponent.h"/>
-          <FILE id="GqBM3u" name="GlobalParameterComponent.cpp" compile="1" resource="0"
-                file="Source/views/components/GlobalParameterComponent.cpp"/>
-          <FILE id="etx2mX" name="GlobalParameterComponent.h" compile="0" resource="0"
-                file="Source/views/components/GlobalParameterComponent.h"/>
-          <FILE id="yXpzyK" name="HarmonicAmplitudesComponent.cpp" compile="1"
-                resource="0" file="Source/views/components/HarmonicAmplitudesComponent.cpp"/>
-          <FILE id="X2ofzH" name="HarmonicAmplitudesComponent.h" compile="0"
-                resource="0" file="Source/views/components/HarmonicAmplitudesComponent.h"/>
-          <FILE id="Batuez" name="PatternManagerComponent.cpp" compile="1" resource="0"
-                file="Source/views/components/PatternManagerComponent.cpp"/>
-          <FILE id="jnHyRf" name="PatternManagerComponent.h" compile="0" resource="0"
-                file="Source/views/components/PatternManagerComponent.h"/>
-          <FILE id="MubvrP" name="SVGComponent.cpp" compile="1" resource="0"
-                file="Source/views/components/SVGComponent.cpp"/>
-          <FILE id="GmE8aP" name="SVGComponent.h" compile="0" resource="0" file="Source/views/components/SVGComponent.h"/>
-        </GROUP>
-        <GROUP id="{35676BB1-ED8E-C81F-4665-EE8C84F673CA}" name="drawables">
-          <FILE id="ZbwzxI" name="GLDrawable.cpp" compile="1" resource="0" file="Source/views/drawables/GLDrawable.cpp"/>
-          <FILE id="jQtC65" name="GLDrawable.h" compile="0" resource="0" file="Source/views/drawables/GLDrawable.h"/>
-        </GROUP>
-        <GROUP id="{1A19251C-D978-C792-E0BE-34DD9478D05C}" name="helpers">
-          <FILE id="w8qC4x" name="GeometryHelpers.h" compile="0" resource="0"
-                file="Source/views/helpers/GeometryHelpers.h"/>
-          <FILE id="CBDgl0" name="ResourceHelpers.cpp" compile="1" resource="0"
-                file="Source/views/helpers/ResourceHelpers.cpp"/>
-          <FILE id="MSkB74" name="ResourceHelpers.h" compile="0" resource="0"
-                file="Source/views/helpers/ResourceHelpers.h"/>
-        </GROUP>
-        <GROUP id="{6B1A4A43-C54F-8805-9B17-F2033B30D8EA}" name="shaders">
-          <FILE id="YE7d6K" name="harmonic-amplitudes.frag" compile="0" resource="1"
-                file="Source/views/shaders/harmonic-amplitudes.frag"/>
-          <FILE id="Gcg7Ej" name="harmonic-amplitudes.vert" compile="0" resource="1"
-                file="Source/views/shaders/harmonic-amplitudes.vert"/>
-        </GROUP>
-      </GROUP>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
   <EXPORTFORMATS>
-    <VS2019 targetFolder="Builds/VisualStudio2019">
+    <LINUX_MAKE targetFolder="Builds/LinuxMakefile">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" targetName="DiatonicVocoder" enablePluginBinaryCopyStep="1"
-                       vst3BinaryLocation="C:\ProgramData\Ableton\Live 10 Suite\VST3"/>
-        <CONFIGURATION isDebug="0" name="Release" targetName="DiatonicVocoder"/>
+        <CONFIGURATION isDebug="1" name="Debug"/>
+        <CONFIGURATION isDebug="0" name="Release"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_audio_basics" path="../../../../../../Program Files/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_devices" path="../../../../../../Program Files/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_formats" path="../../../../../../Program Files/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_plugin_client" path="../../../../../../Program Files/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_processors" path="../../../../../../Program Files/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_utils" path="../../../../../../Program Files/JUCE/modules"/>
-        <MODULEPATH id="juce_core" path="../../../../../../Program Files/JUCE/modules"/>
-        <MODULEPATH id="juce_data_structures" path="../../../../../../Program Files/JUCE/modules"/>
-        <MODULEPATH id="juce_dsp" path="../../../../../../Program Files/JUCE/modules"/>
-        <MODULEPATH id="juce_events" path="../../../../../../Program Files/JUCE/modules"/>
-        <MODULEPATH id="juce_graphics" path="../../../../../../Program Files/JUCE/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="../../../../../../Program Files/JUCE/modules"/>
-        <MODULEPATH id="juce_gui_extra" path="../../../../../../Program Files/JUCE/modules"/>
-        <MODULEPATH id="juce_opengl" path="../../../../../../Program Files/JUCE/modules"/>
-        <MODULEPATH id="react_juce" path="../blueprint"/>
+        <MODULEPATH id="juce_audio_basics" path="../../juce"/>
+        <MODULEPATH id="juce_audio_devices" path="../../juce"/>
+        <MODULEPATH id="juce_audio_formats" path="../../juce"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../juce"/>
+        <MODULEPATH id="juce_audio_processors" path="../../juce"/>
+        <MODULEPATH id="juce_audio_utils" path="../../juce"/>
+        <MODULEPATH id="juce_core" path="../../juce"/>
+        <MODULEPATH id="juce_data_structures" path="../../juce"/>
+        <MODULEPATH id="juce_dsp" path="../../juce"/>
+        <MODULEPATH id="juce_events" path="../../juce"/>
+        <MODULEPATH id="juce_graphics" path="../../juce"/>
+        <MODULEPATH id="juce_gui_basics" path="../../juce"/>
+        <MODULEPATH id="juce_gui_extra" path="../../juce"/>
+        <MODULEPATH id="juce_opengl" path="../../juce"/>
       </MODULEPATHS>
-    </VS2019>
+    </LINUX_MAKE>
   </EXPORTFORMATS>
   <MODULES>
-    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
     <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
@@ -108,7 +61,6 @@
     <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
-    <MODULE id="react_juce" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
   </MODULES>
   <LIVE_SETTINGS>
     <WINDOWS/>
