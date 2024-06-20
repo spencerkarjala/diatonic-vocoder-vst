@@ -3,7 +3,6 @@
 #include "../models/FFTBuffer.h"
 #include <JuceHeader.h>
 
-
 class PluginProcessor : public juce::AudioProcessor
 {
   public:
@@ -53,11 +52,6 @@ class PluginProcessor : public juce::AudioProcessor
 
     unsigned getBufferWritePos(unsigned channel) { return mAudioBuffer.getWritePos(channel); }
 
-    void readAudioBuffer(float* destination, unsigned channel, unsigned endPos, unsigned length)
-    {
-        mAudioBuffer.readBackN(destination, channel, endPos, length);
-    }
-
     juce::AudioParameterFloat* pHarmonicAmplitudes[12];
     juce::AudioParameterFloat* pCeiling;
     juce::AudioParameterFloat* pFloor;
@@ -73,7 +67,7 @@ class PluginProcessor : public juce::AudioProcessor
     bool mIsNextBlockReady = false;
     float mScopeData[SCOPE_SIZE];
 
-    void processFFT(juce::dsp::Complex<float>* fftData);
+    void processFFT(juce::dsp::Complex<float>* fftData, unsigned int channel);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginProcessor)
 };

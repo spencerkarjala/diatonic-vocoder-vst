@@ -4,19 +4,24 @@
 
 PluginProcessor::PluginProcessor()
   : AudioProcessor(BusesProperties().withInput("Input", juce::AudioChannelSet::stereo(), true).withOutput("Output", juce::AudioChannelSet::stereo(), true))
-  , mAudioBuffer(NUM_CHANNELS, 2 * FFT_SIZE, FFT_ORDER, WINDOW_SIZE, 2, [this](juce::dsp::Complex<float>* fftData) { this->processFFT(fftData); })
+  , mAudioBuffer(NUM_CHANNELS,
+                 2 * FFT_SIZE,
+                 FFT_ORDER,
+                 WINDOW_SIZE,
+                 2,
+                 [this](std::complex<float>* fftData, unsigned int channel) { this->processFFT(fftData, channel); })
   , mAudioBufferIndex{ 0 }
 {
     for (int index = 0; index < 12; ++index) {
         pHarmonicAmplitudes[index] =
-          new juce::AudioParameterFloat(Constants::PARAM_IDS_HARMONIC_AMPLITUDE[index], Constants::PARAM_LABELS_HARMONIC_AMPLITUDE[index], 0.f, 1.f, 1.f);
+          new juce::AudioParameterFloat(Constants::PARAM_IDS_HARMONIC_AMPLITUDE[index], Constants::PARAM_LABELS_HARMONIC_AMPLITUDE[index], 0.f, 1.f, 0.f);
         this->addParameter(pHarmonicAmplitudes[index]);
     }
 
     pCeiling = new juce::AudioParameterFloat(Constants::PARAM_ID_CEILING, Constants::PARAM_LABEL_CEILING, 0.f, 1.f, 1.f);
     this->addParameter(pCeiling);
 
-    pFloor = new juce::AudioParameterFloat(Constants::PARAM_ID_FLOOR, Constants::PARAM_LABEL_FLOOR, 0.f, 1.f, 1.f);
+    pFloor = new juce::AudioParameterFloat(Constants::PARAM_ID_FLOOR, Constants::PARAM_LABEL_FLOOR, 0.f, 1.f, 0.f);
     this->addParameter(pFloor);
 
     pDryWet = new juce::AudioParameterFloat(Constants::PARAM_ID_DRY_WET, Constants::PARAM_LABEL_DRY_WET, 0.f, 1.f, 1.f);

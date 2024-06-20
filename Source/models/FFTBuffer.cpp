@@ -1,43 +1,51 @@
+#include <cassert>
+
 #include "FFTBuffer.h"
 
 FFTBuffer::FFTBuffer(unsigned numChannels,
-                     size_t size,
+                     unsigned size,
                      unsigned fftOrder,
                      unsigned windowSize,
                      unsigned numOverlaps,
-                     std::function<void(juce::dsp::Complex<float>*)> processFFT)
-  : mBuffer(numChannels, static_cast<int>(size))
-  , mFFTBuffer(numOverlaps)
+                     std::function<void(std::complex<float>*, unsigned int)> processFFT)
+  : m_inputAudio(numChannels, size)
+  , m_outputAudioFrames(numOverlaps)
   , mResultBuffer(numChannels, windowSize)
   , mResults(numChannels)
   , mFFT(fftOrder)
   , mWindow(windowSize, juce::dsp::WindowingFunction<float>::hann, false)
-  , mSize(static_cast<int>(size))
-  , mSizeWindow(windowSize)
-  , mSizeOverlaps(windowSize / numOverlaps)
-  , mNumOverlaps(numOverlaps)
+  , m_size(static_cast<unsigned int>(size))
+  , m_sizeWindow(windowSize)
+  , m_sizeOverlaps(windowSize / numOverlaps)
+  , m_numOverlaps(numOverlaps)
   , mReadPos(numChannels)
   , mWritePos(numChannels)
   , mResultReadPos(numChannels)
-  , tmp(windowSize)
-  , tmp2(windowSize)
   , mProcessFFT(processFFT)
   , mFrameIndex(numChannels)
 {
-    mBuffer.clear();
     for (unsigned int channel = 0; channel < numChannels; ++channel) {
         for (unsigned int sample = 0; sample < windowSize; ++sample) {
             mResultBuffer.setSample(channel, sample, { 0.f, 0.f });
         }
     }
-    for (unsigned int overlap = 0; overlap < numOverlaps; ++overlap) {
-        mFFTBuffer[overlap] = juce::AudioBuffer<juce::dsp::Complex<float>>(numChannels, windowSize);
+
+    for (unsigned int channel = 0; channel < numChannels; ++channel) {
+        for (unsigned int sample = 0; sample < windowSize; ++sample) {
+            m_inputAudio.setSample(channel, sample, 0.f);
+        }
+    }
+
+    for (unsigned int frame = 0; frame < numOverlaps; ++frame) {
+        m_outputAudioFrames[frame] = juce::AudioBuffer<juce::dsp::Complex<float>>(numChannels, windowSize);
+
         for (unsigned int channel = 0; channel < numChannels; ++channel) {
             for (unsigned int sample = 0; sample < windowSize; ++sample) {
-                mFFTBuffer[overlap].setSample(channel, sample, { 0.f, 0.f });
+                m_outputAudioFrames[frame].setSample(channel, sample, { 0.f, 0.f });
             }
         }
     }
+
     for (unsigned channel = 0; channel < numChannels; ++channel) {
         mFrameIndex[channel] = 0;
     }
@@ -45,30 +53,17 @@ FFTBuffer::FFTBuffer(unsigned numChannels,
 
 void FFTBuffer::write(unsigned channel, float sample)
 {
-    mBuffer.setSample(channel, this->getThenIncrementWrite(channel), sample);
-    if (mWritePos[channel] % mSizeOverlaps == 0) {
-        this->performFFT(channel);
+    const auto oldWritePos = mWritePos[channel].load();
+
+    const unsigned sampleIndex = this->getThenIncrementWrite(channel);
+    m_inputAudio.setSample(channel, sampleIndex, sample);
+
+    if (mWritePos[channel] < oldWritePos && !m_minSamplesReached) {
+        m_minSamplesReached.store(true);
     }
-}
 
-void FFTBuffer::read(float* destination, unsigned channel, unsigned length)
-{
-    unsigned endPos = mWritePos[channel];
-    this->readBackN(destination, channel, endPos, length);
-}
-
-void FFTBuffer::readBackN(float* destination, unsigned channel, unsigned endPos, unsigned length)
-{
-    unsigned startPos = (endPos - length) % mSize;
-    float* source = mBuffer.getWritePointer(channel, startPos);
-    if (endPos > startPos) {
-        memcpy(destination, source, length * sizeof(float));
-    } else {
-        size_t firstChunkSize = (mSize - startPos) * sizeof(float);
-        size_t lastChunkSize = (length * sizeof(float)) - firstChunkSize;
-        memcpy(destination, source, firstChunkSize);
-        source = mBuffer.getWritePointer(channel);
-        memcpy(destination + firstChunkSize, source, lastChunkSize);
+    if (mWritePos[channel] % m_sizeOverlaps == 0 && m_minSamplesReached) {
+        this->performFFT(channel);
     }
 }
 
@@ -90,60 +85,84 @@ unsigned FFTBuffer::getWritePos(unsigned channel)
 unsigned FFTBuffer::getThenIncrementWrite(unsigned channel, unsigned num)
 {
     long unsigned prev = mWritePos[channel];
-    mWritePos[channel] = (prev + num >= mSize ? 0 : prev + num);
+    mWritePos[channel] = (prev + num >= m_size ? 0 : prev + num);
     return prev;
 }
 
 unsigned FFTBuffer::getThenIncrementRead(unsigned channel, unsigned num)
 {
     long unsigned prev = mReadPos[channel];
-    mReadPos[channel] = (prev + num == mSize ? 0 : prev + num);
+    mReadPos[channel] = (prev + num == m_sizeWindow ? 0 : prev + num);
     return prev;
 }
 
 unsigned FFTBuffer::getThenIncrementReadResult(unsigned channel, unsigned num)
 {
     long unsigned prev = mResultReadPos[channel];
-    mResultReadPos[channel] = (prev + num == mSizeWindow ? 0 : prev + num);
+    mResultReadPos[channel] = (prev + num == m_sizeWindow ? 0 : prev + num);
     return prev;
 }
 
-void FFTBuffer::performFFT(unsigned channel)
+void FFTBuffer::performFFT(const unsigned channel)
 {
-    const float* audioData = mBuffer.getReadPointer(channel);
-    juce::dsp::Complex<float>* fftData = mFFTBuffer[mFrameIndex[channel]].getWritePointer(channel);
-    juce::dsp::Complex<float>* resultData = mResultBuffer.getWritePointer(channel);
-    unsigned bufferPos = mWritePos[channel].load();
-    unsigned bufferBase = (bufferPos - mSizeWindow) % mSize;
+    const float* audioInputData = m_inputAudio.getReadPointer(channel);
+    unsigned int bufferPos = mWritePos[channel].load();
+    unsigned int bufferBase = (bufferPos - m_sizeWindow) % m_size;
 
-    for (unsigned int sample = 0; sample < mSizeWindow; ++sample) {
-        tmp[sample] = audioData[(bufferBase + sample) % mSize];
-    }
-    mWindow.multiplyWithWindowingTable(&tmp[0], mSizeWindow);
+    std::vector<float> windowedAudioData(m_sizeWindow);
 
-    for (unsigned int sample = 0; sample < mSizeWindow; ++sample) {
-        resultData[sample] = { tmp[sample], 0.f };
+    for (unsigned int sample = 0; sample < m_sizeWindow; ++sample) {
+        unsigned int circularIndex = (bufferBase + sample) % m_size;
+        windowedAudioData[sample] = audioInputData[circularIndex];
     }
 
-    mFFT.perform(resultData, &tmp2[0], false);
-    this->mProcessFFT(&tmp2[0]);
-    mFFT.perform(&tmp2[0], fftData, true);
+    std::vector<std::complex<float>> fftInput(m_sizeWindow);
+    std::vector<std::complex<float>> spectrumData(m_sizeWindow);
+    std::vector<std::complex<float>> fftOutput(m_sizeWindow);
 
+    for (unsigned int sample = 0; sample < m_sizeWindow; ++sample) {
+        fftInput[sample] = { windowedAudioData[sample], 0.f };
+    }
+
+    mFFT.perform(&fftInput[0], &spectrumData[0], false);
+    this->mProcessFFT(&spectrumData[0], channel);
+    mFFT.perform(&spectrumData[0], &fftOutput[0], true);
+
+    std::vector<float> realData(m_sizeWindow);
+
+    for (unsigned int sample = 0; sample < m_sizeWindow; ++sample) {
+        realData[sample] = fftOutput[sample].real();
+    }
+
+    mWindow.multiplyWithWindowingTable(&realData[0], m_sizeWindow);
+
+    std::complex<float>* fftData = m_outputAudioFrames[mFrameIndex[channel]].getWritePointer(channel);
+
+    for (unsigned int sample = 0; sample < m_sizeWindow; ++sample) {
+        fftData[sample] = { realData[sample], 0.f };
+    }
+
+    std::complex<float>* resultData = mResultBuffer.getWritePointer(channel);
+    std::complex<float> result;
     unsigned frameIndexBase = mFrameIndex[channel];
-    juce::dsp::Complex<float> result;
-    for (unsigned int sample = 0; sample < mSizeWindow; ++sample) {
-        result = 0;
-        for (unsigned int frame = 0; frame < mNumOverlaps; ++frame) {
-            if (sample + frame * mSizeOverlaps < mSizeWindow) {
-                result += mFFTBuffer[(frameIndexBase + frame) % mNumOverlaps].getSample(channel, sample + frame * mSizeOverlaps);
-            }
+
+    for (unsigned int sample = 0; sample < m_sizeWindow / m_numOverlaps; ++sample) {
+        result = { 0.f, 0.f };
+
+        for (unsigned int frame = 0; frame < m_numOverlaps; ++frame) {
+            unsigned frameIndex = (frameIndexBase + frame) % m_numOverlaps;
+            unsigned sampleIndex = sample + frame * m_sizeOverlaps;
+
+            auto& outputAudioFrame = m_outputAudioFrames[frameIndex];
+            result += outputAudioFrame.getSample(channel, sampleIndex);
         }
-        resultData[sample] = result / (float)(mNumOverlaps > 1 ? mNumOverlaps / 2 : 1);
+
+        resultData[sample] = result;
     }
 
-    for (unsigned int sample = 0; sample < mSizeOverlaps; ++sample) {
+    for (unsigned int sample = 0; sample < m_sizeOverlaps; ++sample) {
         mResults[channel].push(resultData[sample].real());
     }
 
-    mFrameIndex[channel] = (mFrameIndex[channel] + 1) % mNumOverlaps;
+    mFrameIndex[channel] = (mFrameIndex[channel] + 1) % m_numOverlaps;
 }
