@@ -94,11 +94,7 @@ void PluginProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
     this->setLatencySamples(FFT_SIZE);
 }
 
-void PluginProcessor::releaseResources()
-{
-    // When playback stops, you can use this as an opportunity to free up any
-    // spare memory, etc.
-}
+void PluginProcessor::releaseResources() {}
 
 bool PluginProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const
 {
@@ -155,21 +151,30 @@ float EPSILON = std::numeric_limits<float>::epsilon();
 
 int getMidiNoteFromFrequency(float frequency, float middleAFrequency = 440.f)
 {
-    // frequencyOfA * std::pow(2.0, (noteNumber - 69) / 12.0)
     float result = round(12.f * std::log2((frequency + std::numeric_limits<float>::epsilon()) / middleAFrequency)) + 69;
     return result < 0 ? 0 : result;
 }
 
-void PluginProcessor::processFFT(juce::dsp::Complex<float>* fftData)
+void PluginProcessor::processFFT(juce::dsp::Complex<float>* fftData, unsigned int channel)
 {
     float freq = 0.f;
     float hopSize = this->getSampleRate() / (float)FFT_SIZE;
-    for (int bin = 0; bin < FFT_SIZE; ++bin) {
+    for (int bin = 0; bin < WINDOW_SIZE / 2; ++bin) {
         int midiNote = getMidiNoteFromFrequency(freq);
         float scaling = std::atan2f(freq, 21500.f) * pCeiling->get();
         float amplitude = pHarmonicAmplitudes[midiNote % 12]->get();
         amplitude = juce::jmax(pFloor->get(), amplitude);
-        fftData[bin] *= amplitude * std::exp((amplitude - 1.f) * scaling);
+
+        const int maxBin = static_cast<int>(WINDOW_SIZE);
+
+        std::complex<float>& fftBin = fftData[bin];
+        std::complex<float>& fftBinMirrored = fftData[maxBin - bin];
+
+        const float scale = amplitude * std::exp((amplitude - 1.f) * scaling);
+
+        fftBin *= scale;
+        fftBinMirrored *= scale;
+
         freq += hopSize;
     }
     fftData[0] = { 0.f, 0.f };
