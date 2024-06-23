@@ -27,9 +27,6 @@ PluginProcessor::PluginProcessor()
     pDryWet = new juce::AudioParameterFloat(Constants::PARAM_ID_DRY_WET, Constants::PARAM_LABEL_DRY_WET, 0.f, 1.f, 1.f);
     this->addParameter(pDryWet);
 
-    pKeyBase = new juce::AudioParameterInt(Constants::PARAM_ID_KEY_BASE, Constants::PARAM_LABEL_KEY_BASE, 0, 11, 0);
-    this->addParameter(pKeyBase);
-
     this->setLatencySamples(FFT_SIZE);
 }
 
@@ -81,7 +78,7 @@ void PluginProcessor::changeProgramName(int index, const juce::String& newName) 
 
 bool PluginProcessor::hasEditor() const
 {
-    return true;
+    return false;
 }
 
 juce::AudioProcessorEditor* PluginProcessor::createEditor()
